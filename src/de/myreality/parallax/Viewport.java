@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package de.myreality.parallax.util;
+package de.myreality.parallax;
 
 /**
  * Provides coordinates in order to focus the mapping on it
@@ -25,7 +25,7 @@ package de.myreality.parallax.util;
  * @since 1.0
  * @version 1.0
  */
-public interface Focusable {
+public interface Viewport {
 
 	// ===========================================================
 	// Constants
@@ -36,17 +36,31 @@ public interface Focusable {
 	// ===========================================================
 	
 	/**
-	 * Returns the x position of the focusable
+	 * Returns the left position value
 	 * 
-	 * @return x position
+	 * @return left position value
 	 */
-	float getX();
+	float getLeft();
 	
 	/**
-	 * Returns the y position of the focusable
+	 * Returns the right position value
 	 * 
-	 * @return y position
+	 * @return right position value
 	 */
-	float getY();
+	float getRight();
+	
+	/**
+	 * Returns the top position value
+	 * 
+	 * @return top position value
+	 */
+	float getTop();
+	
+	/**
+	 * Returns the bottom position value
+	 * 
+	 * @return bottom position value
+	 */
+	float getBottom();
 
 }
