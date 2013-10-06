@@ -97,8 +97,10 @@ class SharedBufferer implements Bufferer {
 	 */
 	@Override
 	public void setBuffer(int buffer) {
-		if (buffer > 0) {
+		if (buffer >= 0) {
 			this.buffer = buffer;
+		} else {
+			this.buffer = 0;
 		}
 	}
 
@@ -121,9 +123,7 @@ class SharedBufferer implements Bufferer {
 	public void update() {
 		int jobIndex = 0;
 		for (Bufferable target : targets) {
-			target.load();
-			targets.remove(target);
-			loaded.put(target, loaded.get(target) + 1);
+			load(target);
 			if (++jobIndex >= buffer) {
 				break;
 			}
@@ -139,13 +139,14 @@ class SharedBufferer implements Bufferer {
 	 */
 	@Override
 	public void add(Bufferable bufferable) {
-		if (!targets.contains(bufferable)) {
-			targets.add(bufferable);
-			
-			if (!loaded.containsKey(bufferable)) {
-				loaded.put(bufferable, 0);
-			}
+		
+		if (getBuffer() > 0) {
+			targets.add(bufferable);		
+		} else {
+			load(bufferable);
 		}
+		
+		
 	}
 
 	// ===========================================================
@@ -162,6 +163,23 @@ class SharedBufferer implements Bufferer {
 		}
 	}
 
+	private void load(Bufferable bufferable) {
+		
+		if (!isLoaded(bufferable)) {
+			bufferable.load();
+		}
+		
+		targets.remove(bufferable);		
+		updateCache(bufferable);
+	}
+	
+	private void updateCache(Bufferable bufferable) {
+		if (!loaded.containsKey(bufferable)) {
+			loaded.put(bufferable, 1);
+		} else {
+			loaded.put(bufferable, loaded.get(bufferable) + 1);
+		}
+	}
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
