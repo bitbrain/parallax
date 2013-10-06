@@ -32,13 +32,13 @@ import de.myreality.parallax.util.Bufferable;
  * @since 1.0
  * @version 1.0
  */
-class SharedBufferer implements Bufferer {
+class SharedBuffer implements Buffer {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	private static SharedBufferer instance;
+	private static SharedBuffer instance;
 
 	// ===========================================================
 	// Fields
@@ -55,10 +55,10 @@ class SharedBufferer implements Bufferer {
 	// ===========================================================
 	
 	static {
-		instance = new SharedBufferer();
+		instance = new SharedBuffer();
 	}
 	
-	private SharedBufferer() {
+	private SharedBuffer() {
 		targets = new CopyOnWriteArrayList<Bufferable>();
 		loaded = new HashMap<Bufferable, Integer>();
 	}
@@ -67,11 +67,7 @@ class SharedBufferer implements Bufferer {
 	// Getter & Setter
 	// ===========================================================
 	
-	public boolean isLoaded(Bufferable bufferable) {
-		return loaded.containsKey(bufferable);
-	}
-	
-	public static SharedBufferer getInstance() {
+	public static SharedBuffer getInstance() {
 		return instance;
 	}
 
@@ -147,6 +143,11 @@ class SharedBufferer implements Bufferer {
 		}
 		
 		
+	}
+	
+	@Override
+	public boolean isLoaded(Bufferable bufferable) {
+		return loaded.containsKey(bufferable);
 	}
 
 	// ===========================================================

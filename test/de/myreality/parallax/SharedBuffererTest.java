@@ -38,13 +38,13 @@ public class SharedBuffererTest {
 	// Setup
 	// ===========================================================
 
-	SharedBufferer bufferer;
+	SharedBuffer bufferer;
 
 	BufferableMock mock1, mock2;
 
 	@Before
 	public void beforeTest() {
-		bufferer = SharedBufferer.getInstance();
+		bufferer = SharedBuffer.getInstance();
 		bufferer.setBuffer(0);
 		bufferer.clear();
 		mock1 = new BufferableMock();

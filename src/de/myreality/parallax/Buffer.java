@@ -28,7 +28,7 @@ import de.myreality.parallax.util.Clearable;
  * @since 1.0
  * @version 1.0
  */
-interface Bufferer extends Clearable {
+interface Buffer extends Clearable {
 
 	// ===========================================================
 	// Constants
@@ -64,5 +64,12 @@ interface Bufferer extends Clearable {
 	 * @param bufferable
 	 */
 	void add(Bufferable bufferable);
+	
+	/**
+	 * 
+	 * @param bufferable
+	 * @return
+	 */
+	boolean isLoaded(Bufferable bufferable);
 
 }
