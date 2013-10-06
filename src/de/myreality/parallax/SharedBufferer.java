@@ -18,28 +18,35 @@
 
 package de.myreality.parallax;
 
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.parallax.util.Bufferable;
 
 /**
- * Simple implementation of {@see TextureBufferer}
+ * Singleton implementation of {@see TextureBufferer}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-class SimpleTextureBufferer implements TextureBufferer {
+class SharedBufferer implements Bufferer {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static SharedBufferer instance;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private LinkedList<Bufferable> targets;
+	private List<Bufferable> targets;
+	
+	private Map<Bufferable, Integer> loaded;
 	
 	private int buffer;
 
@@ -47,13 +54,26 @@ class SimpleTextureBufferer implements TextureBufferer {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleTextureBufferer() {
-		targets = new LinkedList<Bufferable>();
+	static {
+		instance = new SharedBufferer();
+	}
+	
+	private SharedBufferer() {
+		targets = new CopyOnWriteArrayList<Bufferable>();
+		loaded = new HashMap<Bufferable, Integer>();
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	
+	public boolean isLoaded(Bufferable bufferable) {
+		return loaded.containsKey(bufferable);
+	}
+	
+	public static SharedBufferer getInstance() {
+		return instance;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -67,6 +87,7 @@ class SimpleTextureBufferer implements TextureBufferer {
 	@Override
 	public void clear() {
 		targets.clear();
+		loaded.clear();
 	}
 
 	/*
@@ -98,8 +119,15 @@ class SimpleTextureBufferer implements TextureBufferer {
 	 */
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		int jobIndex = 0;
+		for (Bufferable target : targets) {
+			target.load();
+			targets.remove(target);
+			loaded.put(target, loaded.get(target) + 1);
+			if (++jobIndex >= buffer) {
+				break;
+			}
+		}
 	}
 
 	/*
@@ -111,13 +139,28 @@ class SimpleTextureBufferer implements TextureBufferer {
 	 */
 	@Override
 	public void add(Bufferable bufferable) {
-		// TODO Auto-generated method stub
-
+		if (!targets.contains(bufferable)) {
+			targets.add(bufferable);
+			
+			if (!loaded.containsKey(bufferable)) {
+				loaded.put(bufferable, 0);
+			}
+		}
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	public void unload(Bufferable bufferable) {
+		if (loaded.containsKey(bufferable)) {
+			loaded.put(bufferable, loaded.get(bufferable) - 1);
+			
+			if (loaded.get(bufferable) < 1) {
+				loaded.remove(bufferable);
+			}
+		}
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
