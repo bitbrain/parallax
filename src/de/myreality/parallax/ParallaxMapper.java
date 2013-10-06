@@ -18,17 +18,15 @@
 
 package de.myreality.parallax;
 
-import de.myreality.parallax.util.Filterable;
-import de.myreality.parallax.util.FilterableImpl;
 
 /**
- * Configuration which holds all configuration for a specific layer
+ * Mapper which contains all layers and does the main logic
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class LayerConfig extends FilterableImpl implements Filterable {
+public class ParallaxMapper {
 
 	// ===========================================================
 	// Constants
@@ -38,70 +36,13 @@ public class LayerConfig extends FilterableImpl implements Filterable {
 	// Fields
 	// ===========================================================
 
-	private float velocityX;
-	
-	private float velocityY;
-	
-	private LayerTexture texture;
-
-	private float index;
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public LayerConfig(float index, LayerTexture texture, float velocityX, float velocityY) {
-		setVelocity(velocityX, velocityY);
-		setTexture(texture);
-	}
-	
-	public LayerConfig(float index, LayerTexture texture) {
-		this(index, texture, 0f, 0f);
-	}
-	
-	public LayerConfig(LayerTexture texture) {
-		this(0, texture);
-	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	public LayerConfig setVelocity(float velocityX, float velocityY) {
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
-		return this;
-	}
-
-	public float getVelocityX() {
-		return velocityX;
-	}
-
-	public float getVelocityY() {
-		return velocityY;
-	}
-	
-	public LayerConfig setTexture(LayerTexture texture) {
-		
-		if (texture != null) {
-			this.texture = texture;
-		}
-		
-		return this;
-	}
-	
-	public LayerTexture getTexture() {
-		return texture;
-	}
-	
-	public LayerConfig setZIndex(float index) {
-		this.index = index;
-		return this;
-	}
-	
-	public float getZIndex() {
-		return index;
-	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
