@@ -16,16 +16,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package de.myreality.parallax.util;
+package de.myreality.parallax;
+
+import java.util.LinkedList;
+
+import de.myreality.parallax.util.Bufferable;
 
 /**
- * Implementation of {@see Filterable}
+ * Simple implementation of {@see TextureBufferer}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class FilterableImpl implements Filterable {
+class SimpleTextureBufferer implements TextureBufferer {
 
 	// ===========================================================
 	// Constants
@@ -35,11 +39,17 @@ public class FilterableImpl implements Filterable {
 	// Fields
 	// ===========================================================
 	
-	private Color filter;
+	private LinkedList<Bufferable> targets;
+	
+	private int buffer;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleTextureBufferer() {
+		targets = new LinkedList<Bufferable>();
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -49,22 +59,60 @@ public class FilterableImpl implements Filterable {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.parallax.util.Clearable#clear()
+	 */
 	@Override
-	public void setFilter(float r, float g, float b, float a) {
-		filter.r = r;
-		filter.g = g;
-		filter.b = b;
-		filter.a = a;
+	public void clear() {
+		targets.clear();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.parallax.TextureBufferer#setBuffer(int)
+	 */
 	@Override
-	public void setFilter(Color filter) {
-		setFilter(filter.r, filter.g, filter.b, filter.a);
+	public void setBuffer(int buffer) {
+		if (buffer > 0) {
+			this.buffer = buffer;
+		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.parallax.TextureBufferer#getBuffer()
+	 */
 	@Override
-	public Color getFilter() {
-		return filter.scaleCopy(1f);
+	public int getBuffer() {
+		return buffer;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.myreality.parallax.TextureBufferer#update()
+	 */
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.parallax.TextureBufferer#add(de.myreality.parallax.util.
+	 * Bufferable)
+	 */
+	@Override
+	public void add(Bufferable bufferable) {
+		// TODO Auto-generated method stub
+
 	}
 
 	// ===========================================================

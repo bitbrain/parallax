@@ -28,7 +28,7 @@ import de.myreality.parallax.util.Clearable;
  * @since 1.0
  * @version 1.0
  */
-public interface TextureBufferer extends Clearable {
+interface TextureBufferer extends Clearable {
 
 	// ===========================================================
 	// Constants

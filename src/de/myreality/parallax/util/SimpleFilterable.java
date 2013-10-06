@@ -16,19 +16,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package de.myreality.parallax;
-
-import de.myreality.parallax.util.Filterable;
-import de.myreality.parallax.util.SimpleFilterable;
+package de.myreality.parallax.util;
 
 /**
- * Configuration which holds all configuration for a specific layer
+ * Implementation of {@see Filterable}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class LayerConfig extends SimpleFilterable implements Filterable {
+public class SimpleFilterable implements Filterable {
 
 	// ===========================================================
 	// Constants
@@ -37,75 +34,38 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private float velocityX;
 	
-	private float velocityY;
-	
-	private LayerTexture texture;
-
-	private float index;
+	private Color filter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public LayerConfig(float index, LayerTexture texture, float velocityX, float velocityY) {
-		setVelocity(velocityX, velocityY);
-		setTexture(texture);
-	}
-	
-	public LayerConfig(float index, LayerTexture texture) {
-		this(index, texture, 0f, 0f);
-	}
-	
-	public LayerConfig(LayerTexture texture) {
-		this(0, texture);
-	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	public LayerConfig setVelocity(float velocityX, float velocityY) {
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
-		return this;
-	}
-
-	public float getVelocityX() {
-		return velocityX;
-	}
-
-	public float getVelocityY() {
-		return velocityY;
-	}
-	
-	public LayerConfig setTexture(LayerTexture texture) {
-		
-		if (texture != null) {
-			this.texture = texture;
-		}
-		
-		return this;
-	}
-	
-	public LayerTexture getTexture() {
-		return texture;
-	}
-	
-	public LayerConfig setZIndex(float index) {
-		this.index = index;
-		return this;
-	}
-	
-	public float getZIndex() {
-		return index;
-	}
-
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	@Override
+	public void setFilter(float r, float g, float b, float a) {
+		filter.r = r;
+		filter.g = g;
+		filter.b = b;
+		filter.a = a;
+	}
+
+	@Override
+	public void setFilter(Color filter) {
+		setFilter(filter.r, filter.g, filter.b, filter.a);
+	}
+
+	@Override
+	public Color getFilter() {
+		return filter.scaleCopy(1f);
+	}
 
 	// ===========================================================
 	// Methods
