@@ -16,16 +16,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package de.myreality.parallax.util;
+package de.myreality.parallax;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.myreality.parallax.util.Drawable;
+import de.myreality.parallax.util.Filterable;
+import de.myreality.parallax.util.SimpleFilterable;
 
 /**
- * Implementation of {@see Filterable}
+ * Simple implementation of {@see Renderer}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleFilterable implements Filterable {
+public class SimpleRenderer implements Renderer {
 
 	// ===========================================================
 	// Constants
@@ -34,46 +41,75 @@ public class SimpleFilterable implements Filterable {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Color filter;
+
+	private Viewport viewport;
+
+	private List<Drawable> drawables;
+
+	private Filterable filterable;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public SimpleRenderer(Viewport viewport, Filterable parent) {
+		drawables = new ArrayList<Drawable>();
+		this.filterable = parent;
+		setViewport(viewport);
+	}
 	
-	public SimpleFilterable() {
-		filter = new Color(1f, 1f, 1f, 1f);
+	public SimpleRenderer(Viewport viewport) {
+		this(viewport, new SimpleFilterable());
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
+	public void add(Drawable drawable) {
+		if (!drawables.contains(drawable)) {
+			drawables.add(drawable);
+		}
+	}
+
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
 	@Override
-	public void setFilter(float r, float g, float b, float a) {
-		filter.r = r;
-		filter.g = g;
-		filter.b = b;
-		filter.a = a;
+	public void clear() {
+		drawables.clear();
 	}
 
 	@Override
-	public void setFilter(Color filter) {
-		setFilter(filter.r, filter.g, filter.b, filter.a);
+	public void updateAndRender(float delta) {
+		if (viewport != null) {
+			for (Drawable drawable : drawables) {
+				draw(drawable);
+			}
+		}
 	}
 
 	@Override
-	public Color getFilter() {
-		return filter.scaleCopy(1f);
+	public Viewport getViewport() {
+		return viewport;
+	}
+
+	@Override
+	public void setViewport(Viewport viewport) {
+		this.viewport = viewport;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void draw(Drawable drawable) {
+		drawable.draw(viewport.getLeft(), viewport.getTop(),
+				viewport.getRight() - viewport.getLeft(),
+				viewport.getBottom() - viewport.getTop(),
+				filterable.getFilter());
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
