@@ -48,7 +48,7 @@ public class PreprocessedTexture implements LayerTexture {
 
 	private SlickTexture texture;
 
-	private TexturePreprocessor preprocessor;
+	private SlickTextureProcessor preprocessor;
 
 	private Image buffer;
 
@@ -58,14 +58,14 @@ public class PreprocessedTexture implements LayerTexture {
 	// Constructors
 	// ===========================================================
 
-	public PreprocessedTexture(int width, int height,
-			TexturePreprocessor processor) {
+	public PreprocessedTexture(int width, int height,SlickTextureProcessor processor) {
+
 		this.preprocessor = processor;
 		this.width = width;
 		this.height = height;
 	}
 
-	public PreprocessedTexture(TexturePreprocessor processor) {
+	public PreprocessedTexture(SlickTextureProcessor processor) {
 		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, processor);
 	}
 
