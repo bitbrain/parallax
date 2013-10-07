@@ -96,8 +96,8 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 		
 		if (texture != null) {
 			this.texture = texture;
-			tileWidth = texture.getWidth();
-			tileHeight = texture.getHeight();
+			tileWidth = 0;
+			tileHeight = 0;
 		}
 		
 		return this;
@@ -127,11 +127,19 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 	}
 	
 	public int getTileWidth() {
-		return tileWidth;
+		if (tileWidth < 1) {
+			return texture.getWidth();
+		} else {
+			return tileWidth;
+		}
 	}
 	
 	public int getTileHeight() {
-		return tileHeight;
+		if (tileHeight < 1) {
+			return texture.getHeight();
+		} else {
+			return tileHeight;
+		}
 	}
 
 	// ===========================================================

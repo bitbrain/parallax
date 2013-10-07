@@ -81,15 +81,16 @@ class SimpleLayer implements Layer {
 		int boundableY = (int) Math.ceil(-y);
 
 		LayerTexture texture = config.getTexture();
+		
 		if (texture != null && buffer.isLoaded(texture)) {
 
-			for (int localX = getStartX(x) + boundableX; localX < width
-					+ config.getTileWidth() + boundableX; localX += config
+			for (float tmpX = getStartX(x) + boundableX; tmpX < width
+					+ config.getTileWidth() + boundableX; tmpX += config
 					.getTileWidth()) {
-				for (int localY = getStartY(y) + boundableY; localY < height
-						+ config.getTileHeight() + boundableY; localY += config
+				for (float tmpY = getStartY(y) + boundableY; tmpY < height
+						+ config.getTileHeight() + boundableY; tmpY += config
 						.getTileHeight()) {
-					texture.draw(localX + getXClip(x), localY + getYClip(y),
+					texture.draw(tmpX + getXClip(x), tmpY + getYClip(y),
 							config.getTileWidth(), config.getTileHeight(),
 							config.getFilter());
 				}
@@ -113,7 +114,6 @@ class SimpleLayer implements Layer {
 	// ===========================================================
 
 	private float getTargetX(float focusX) {
-
 		return (float) (Math.floor(-focusX + localX) / config.getZIndex());
 	}
 

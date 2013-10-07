@@ -88,6 +88,11 @@ public class ParallaxMapper extends SimpleFilterable {
 	}
 	
 	public void updateAndRender(float delta) {
+		
+		for (Layer layer : layers) {
+			layer.update(delta);
+		}
+		
 		buffer.update();
 		renderer.updateAndRender(delta);
 	}

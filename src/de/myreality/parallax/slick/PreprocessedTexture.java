@@ -92,7 +92,6 @@ public class PreprocessedTexture implements LayerTexture {
 			g.clear();
 			preprocessor.process(g);
 			g.flush();
-
 			texture = new SlickTexture(buffer);
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -124,6 +123,7 @@ public class PreprocessedTexture implements LayerTexture {
 
 	@Override
 	public int getHeight() {
+
 		if (texture != null) {
 			return texture.getHeight();
 		} else {

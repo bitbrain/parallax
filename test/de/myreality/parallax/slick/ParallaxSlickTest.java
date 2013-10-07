@@ -57,22 +57,23 @@ public class ParallaxSlickTest extends BasicGame {
 		mapper = new ParallaxMapper(target);
 		
 		mapper.add(config);
-		config.setZIndex(5f);
+		config.setZIndex(2f);
 		mapper.add(config);
-		config.setZIndex(10f);
+		config.setZIndex(5f);
 		mapper.add(config);
 		
 		LayerTexture preprocessed = new PreprocessedTexture(100, 100, new SlickTextureProcessor() {
 
 			@Override
 			public void process(Graphics g) {
-				//g.setColor(Color.red);
-				//g.fillRect(0, 0, 20, 20);
+				g.setColor(Color.red);
+				g.fillRect(0, 0, 20, 20);
 			}
 			
 		});
 		
-		LayerConfig config2 = new LayerConfig(preprocessed);
+		LayerConfig config2 = new LayerConfig(10f, preprocessed);
+		config2.setVelocity(1f, 2f);
 		mapper.add(config2);
 	}
 
