@@ -18,44 +18,53 @@
 
 package de.myreality.parallax;
 
-import de.myreality.parallax.util.Drawable;
-
 /**
- * Is used by the mapper in order draw layers by z index
+ * Simple implementation of {@SimpleLayerFactory}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-interface Layer extends Drawable {
+public class SimpleLayerFactory implements LayerFactory {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.myreality.parallax.LayerFactory#create(de.myreality.parallax.LayerConfig
+	 * , de.myreality.parallax.Buffer)
+	 */
+	@Override
+	public Layer create(LayerConfig config, Buffer buffer) {
+		return new SimpleLayer(new LayerConfig(config), buffer);
+	}
+
+	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Sets a new configuration
-	 * 
-	 * @param layerConfig
-	 */
-	void setConfig(LayerConfig layerConfig);
-	
-	/**
-	 * Returns the current configuration
-	 * 
-	 * @return
-	 */
-	LayerConfig getConfig();
-	
-	/**
-	 * 
-	 * 
-	 * @param delta
-	 */
-	void update(float delta);
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
 
 }

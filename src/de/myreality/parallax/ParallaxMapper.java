@@ -18,7 +18,6 @@
 
 package de.myreality.parallax;
 
-
 /**
  * Mapper which contains all layers and does the main logic
  * 

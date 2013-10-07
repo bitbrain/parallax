@@ -37,5 +37,17 @@ public interface LayerTexture extends Drawable, Bufferable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	/**
+	 * 
+	 * @return
+	 */
+	int getWidth();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	int getHeight();
 
 }

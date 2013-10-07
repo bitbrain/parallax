@@ -43,6 +43,6 @@ interface LayerFactory {
 	 * @param mapper
 	 * @return
 	 */
-	Layer create(LayerConfig config, ParallaxMapper mapper);
+	Layer create(LayerConfig config, Buffer buffer);
 
 }

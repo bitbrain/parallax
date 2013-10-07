@@ -45,6 +45,8 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 	private LayerTexture texture;
 
 	private float index;
+	
+	private int tileWidth, tileHeight;
 
 	// ===========================================================
 	// Constructors
@@ -61,6 +63,15 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 	
 	public LayerConfig(LayerTexture texture) {
 		this(0, texture);
+	}
+	
+	public LayerConfig(LayerConfig config) {
+		this.velocityX = config.velocityX;
+		this.velocityY = config.velocityY;
+		this.index = config.index;
+		this.tileWidth = config.tileWidth;
+		this.tileHeight = config.tileHeight;
+		this.texture = config.texture;
 	}
 
 	// ===========================================================
@@ -85,6 +96,8 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 		
 		if (texture != null) {
 			this.texture = texture;
+			tileWidth = texture.getWidth();
+			tileHeight = texture.getHeight();
 		}
 		
 		return this;
@@ -101,6 +114,24 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 	
 	public float getZIndex() {
 		return index;
+	}
+	
+	public LayerConfig setTileWidth(int width) {
+		this.tileWidth = width;
+		return this;
+	}
+	
+	public LayerConfig setTileHeight(int height) {
+		this.tileHeight = height;
+		return this;
+	}
+	
+	public int getTileWidth() {
+		return tileWidth;
+	}
+	
+	public int getTileHeight() {
+		return tileHeight;
 	}
 
 	// ===========================================================
