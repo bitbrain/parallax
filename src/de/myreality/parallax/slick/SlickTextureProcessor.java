@@ -16,16 +16,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package de.myreality.parallax.util;
+package de.myreality.parallax.slick;
+
+import org.newdawn.slick.Graphics;
+
 
 /**
- * Provides buffering functionality by lazy loading
+ * Is used by a preprocessed texture to calculate itself
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Bufferable {
+public interface SlickTextureProcessor {
 
 	// ===========================================================
 	// Constants
@@ -36,15 +39,10 @@ public interface Bufferable {
 	// ===========================================================
 	
 	/**
-	 * Is called whenever a bufferer wants to buffer it. Therefore use
-	 * this method as initialization point in order to load resources
-	 * correctly
+	 * 
+	 * 
+	 * @param g
 	 */
-	void load();
-	
-	/**
-	 * Is called to free any kind of resource if necessary
-	 */
-	void dispose();
+	void process(Graphics g);
 
 }

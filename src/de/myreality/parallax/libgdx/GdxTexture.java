@@ -1,4 +1,3 @@
-
 package de.myreality.parallax.libgdx;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -16,15 +15,15 @@ public class GdxTexture implements LayerTexture {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private Texture texture;
-	
+
 	private SpriteBatch batch;
 
 	// ===========================================================
-	// Constructors
+	// ConstructorsD
 	// ===========================================================
-	
+
 	public GdxTexture(Texture texture, SpriteBatch batch) {
 		this.texture = texture;
 		this.batch = batch;
@@ -48,6 +47,12 @@ public class GdxTexture implements LayerTexture {
 
 	@Override
 	public void load() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}

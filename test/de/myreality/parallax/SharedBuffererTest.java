@@ -154,6 +154,11 @@ public class SharedBuffererTest {
 			// DO NOTHING
 		}
 
+		@Override
+		public void dispose() {
+			// DO NOTHING
+		}
+
 	}
 
 }
