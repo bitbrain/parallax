@@ -18,6 +18,8 @@
 
 package de.myreality.parallax;
 
+import de.myreality.parallax.util.SimpleFilterable;
+
 /**
  * Mapper which contains all layers and does the main logic
  * 
@@ -25,7 +27,7 @@ package de.myreality.parallax;
  * @since 1.0
  * @version 1.0
  */
-public class ParallaxMapper {
+public class ParallaxMapper extends SimpleFilterable {
 
 	// ===========================================================
 	// Constants
@@ -34,10 +36,22 @@ public class ParallaxMapper {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private Buffer buffer;
+	
+	private LayerFactory factory;
+	
+	private Renderer renderer;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public ParallaxMapper(Viewport viewport) {
+		this.buffer = SharedBuffer.getInstance();
+		this.factory = new SimpleLayerFactory();
+		this.renderer = new SimpleRenderer(viewport, this);
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -51,6 +65,30 @@ public class ParallaxMapper {
 	// Methods
 	// ===========================================================
 
+	public void add(LayerConfig config) {
+		
+	}
+	
+	public void clear() {
+		renderer.clear();
+	}
+	
+	public void updateAndRender(float delta) {
+		
+	}
+	
+	public Viewport getViewport() {
+		return renderer.getViewport();
+	}
+	
+	public void setViewport(Viewport viewport) {
+		renderer.setViewport(viewport);
+	}
+	
+	public static void setBuffering(int buffering) {
+		SharedBuffer.getInstance().setBuffer(buffering);
+	}
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

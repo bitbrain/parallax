@@ -25,7 +25,7 @@ package de.myreality.parallax;
  * @since 1.0
  * @version 1.0
  */
-public class SimpleLayerFactory implements LayerFactory {
+class SimpleLayerFactory implements LayerFactory {
 
 	// ===========================================================
 	// Constants
