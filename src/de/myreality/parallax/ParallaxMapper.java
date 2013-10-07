@@ -18,6 +18,9 @@
 
 package de.myreality.parallax;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.myreality.parallax.util.SimpleFilterable;
 
 /**
@@ -42,12 +45,15 @@ public class ParallaxMapper extends SimpleFilterable {
 	private LayerFactory factory;
 	
 	private Renderer renderer;
+	
+	private List<Layer> layers;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public ParallaxMapper(Viewport viewport) {
+		layers = new ArrayList<Layer>();
 		this.buffer = SharedBuffer.getInstance();
 		this.factory = new SimpleLayerFactory();
 		this.renderer = new SimpleRenderer(viewport, this);
@@ -66,15 +72,24 @@ public class ParallaxMapper extends SimpleFilterable {
 	// ===========================================================
 
 	public void add(LayerConfig config) {
-		
+		Layer layer = factory.create(config, buffer);
+		layers.add(layer);
+		renderer.add(layer);
 	}
 	
 	public void clear() {
+		
+		for (Layer layer : layers) {
+			layer.unload();
+		}
+		
+		layers.clear();		
 		renderer.clear();
 	}
 	
 	public void updateAndRender(float delta) {
-		
+		buffer.update();
+		renderer.updateAndRender(delta);
 	}
 	
 	public Viewport getViewport() {

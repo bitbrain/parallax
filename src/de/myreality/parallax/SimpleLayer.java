@@ -52,6 +52,7 @@ class SimpleLayer implements Layer {
 	public SimpleLayer(LayerConfig config, Buffer buffer) {
 		this.config = config;
 		this.buffer = buffer;
+		buffer.add(config.getTexture());
 	}
 
 	// ===========================================================
@@ -61,6 +62,11 @@ class SimpleLayer implements Layer {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	
+	@Override
+	public void unload() {
+		buffer.unload(config.getTexture());
+	}
 
 	@Override
 	public void update(float delta) {

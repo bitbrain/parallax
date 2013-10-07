@@ -150,10 +150,8 @@ class SharedBuffer implements Buffer {
 		return loaded.containsKey(bufferable);
 	}
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
 	
+	@Override
 	public void unload(Bufferable bufferable) {
 		if (loaded.containsKey(bufferable)) {
 			loaded.put(bufferable, loaded.get(bufferable) - 1);
@@ -163,6 +161,10 @@ class SharedBuffer implements Buffer {
 			}
 		}
 	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
 
 	private void load(Bufferable bufferable) {
 		

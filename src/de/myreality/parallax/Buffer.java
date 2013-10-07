@@ -71,5 +71,12 @@ interface Buffer extends Clearable {
 	 * @return
 	 */
 	boolean isLoaded(Bufferable bufferable);
+	
+	/**
+	 * 
+	 * 
+	 * @param bufferable
+	 */
+	public void unload(Bufferable bufferable);
 
 }

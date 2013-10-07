@@ -19,6 +19,7 @@
 package de.myreality.parallax;
 
 import de.myreality.parallax.util.Clearable;
+import de.myreality.parallax.util.Drawable;
 
 /**
  * Renderer which provides rendering functionality
@@ -27,7 +28,7 @@ import de.myreality.parallax.util.Clearable;
  * @since 1.0
  * @version 1.0
  */
-public interface Renderer extends Clearable {
+interface Renderer extends Clearable {
 
 	// ===========================================================
 	// Constants
@@ -57,5 +58,12 @@ public interface Renderer extends Clearable {
 	 * @param viewport
 	 */
 	void setViewport(Viewport viewport);
+	
+	/**
+	 * 
+	 * 
+	 * @param drawable
+	 */
+	void add(Drawable drawable);
 
 }

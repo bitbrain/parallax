@@ -66,15 +66,16 @@ public class SimpleRenderer implements Renderer {
 	// Getter & Setter
 	// ===========================================================
 
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+	
+	@Override
 	public void add(Drawable drawable) {
 		if (!drawables.contains(drawable)) {
 			drawables.add(drawable);
 		}
 	}
-
-	// ===========================================================
-	// Methods for/from SuperClass/Interfaces
-	// ===========================================================
 
 	@Override
 	public void clear() {

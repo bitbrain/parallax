@@ -57,5 +57,8 @@ interface Layer extends Drawable {
 	 * @param delta
 	 */
 	void update(float delta);
+	
+	
+	void unload();
 
 }
