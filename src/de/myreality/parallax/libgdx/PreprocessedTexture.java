@@ -1,5 +1,7 @@
 package de.myreality.parallax.libgdx;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -57,9 +59,12 @@ public class PreprocessedTexture implements LayerTexture {
 	@Override
 	public void load() {
 		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
+		Gdx.gl.glEnable(GL10.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		processor.process(map);
 		rawTexture = new Texture(map);
 		map.dispose();
+		Gdx.gl.glDisable(GL10.GL_BLEND);
 		texture = new GdxTexture(rawTexture, batch);
 	}
 
