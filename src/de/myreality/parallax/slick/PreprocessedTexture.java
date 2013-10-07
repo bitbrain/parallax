@@ -89,6 +89,7 @@ public class PreprocessedTexture implements LayerTexture {
 		try {
 			buffer = new Image(width, height);
 			Graphics g = buffer.getGraphics();
+			g.clear();
 			preprocessor.process(g);
 			g.flush();
 

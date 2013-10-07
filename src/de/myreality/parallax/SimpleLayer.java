@@ -62,7 +62,7 @@ class SimpleLayer implements Layer {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
 	public void unload() {
 		buffer.unload(config.getTexture());
@@ -76,24 +76,25 @@ class SimpleLayer implements Layer {
 
 	@Override
 	public void draw(float x, float y, float width, float height, Color filter) {
-		
-		int boundableX = (int) Math.ceil(x);
-		int boundableY = (int) Math.ceil(y);
-		
+
+		int boundableX = (int) Math.ceil(-x);
+		int boundableY = (int) Math.ceil(-y);
+
 		LayerTexture texture = config.getTexture();
-		
 		if (texture != null && buffer.isLoaded(texture)) {
 
 			for (int localX = getStartX(x) + boundableX; localX < width
-					+ config.getTileWidth() + boundableX; localX += config.getTileWidth()) {
+					+ config.getTileWidth() + boundableX; localX += config
+					.getTileWidth()) {
 				for (int localY = getStartY(y) + boundableY; localY < height
-						+ config.getTileHeight() + boundableY; localY += config.getTileHeight()) {
-					
-					texture.draw(localX + getXClip(x), localY + getYClip(y), config.getTileWidth(),
-							config.getTileHeight(), config.getFilter());
+						+ config.getTileHeight() + boundableY; localY += config
+						.getTileHeight()) {
+					texture.draw(localX + getXClip(x), localY + getYClip(y),
+							config.getTileWidth(), config.getTileHeight(),
+							config.getFilter());
 				}
 			}
-		
+
 		}
 	}
 
@@ -113,13 +114,11 @@ class SimpleLayer implements Layer {
 
 	private float getTargetX(float focusX) {
 
-		return (float) (Math.floor(-focusX + localX) / config
-					.getZIndex());
+		return (float) (Math.floor(-focusX + localX) / config.getZIndex());
 	}
 
 	private float getTargetY(float focusY) {
-			return (float) (Math.floor(-focusY + localY) / config
-					.getZIndex());
+		return (float) (Math.floor(-focusY + localY) / config.getZIndex());
 	}
 
 	private int getStartX(float focusX) {
