@@ -158,6 +158,7 @@ class SharedBuffer implements Buffer {
 			
 			if (loaded.get(bufferable) < 1) {
 				loaded.remove(bufferable);
+				bufferable.dispose();
 			}
 		}
 	}
