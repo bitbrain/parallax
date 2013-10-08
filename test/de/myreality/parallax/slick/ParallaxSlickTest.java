@@ -76,13 +76,13 @@ public class ParallaxSlickTest extends BasicGame {
 			mapper.add(config);
 		}
 		
-		int fogLayers = 2;
+		int fogLayers = 5;
 		float veloX = 1f;
 		float veloY = 2f;
 		
 		for (int i = 0; i < fogLayers; ++i) {
 			config = new LayerConfig(fogTexture);
-			config.setZIndex((float) (Math.pow(i, 2) + 3f));
+			config.setZIndex((float) (Math.sin(i) + 5));
 			config.setVelocity(veloX, veloY);
 			mapper.add(config);
 		}
