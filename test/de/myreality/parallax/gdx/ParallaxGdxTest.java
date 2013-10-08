@@ -1,11 +1,10 @@
 package de.myreality.parallax.gdx;
 
-import org.lwjgl.opengl.GL11;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +21,9 @@ public class ParallaxGdxTest extends Game {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	static final int WIDTH  = 800;
+    static final int HEIGHT = 600;
 
 	// ===========================================================
 	// Fields
@@ -47,11 +49,15 @@ public class ParallaxGdxTest extends Game {
 
 	@Override
 	public void create() {
-		camera = new ParallaxCamera();
-		mapper = new ParallaxMapper(camera);
-		batch = new SpriteBatch();
-		LayerTexture texture = new PreprocessedTexture(100, 100, batch, new BlockCreator());
+		
+		batch = new SpriteBatch();		
+		
+		camera = new ParallaxCamera(WIDTH, HEIGHT);   
+        
+        mapper = new ParallaxMapper(camera);
+		LayerTexture texture = new PreprocessedTexture(128, 128, batch, new BlockCreator());
 		LayerConfig config = new LayerConfig(texture);
+		config.setZIndex(1f);
 		mapper.add(config);
 		config.setZIndex(3f);
 		mapper.add(config);
@@ -64,24 +70,28 @@ public class ParallaxGdxTest extends Game {
 		super.resize(width, height);
 		camera.viewportWidth = width;
 		camera.viewportHeight = height;
-
 		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	@Override
 	public void render() {
-		super.render();
-
-		Gdx.gl.glClearColor(0f, 0, 0, 1f);
-		Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		super.render();		
+		
+		int deltaX = (int)(Gdx.graphics.getWidth() / 2f);
+		int deltaY = (int)(Gdx.graphics.getHeight() / 2f);
 		
 		camera.position.x = Gdx.input.getX();
-		camera.position.y = -Gdx.input.getY();
-		
-		camera.update();
-		batch.begin();		
-		mapper.updateAndRender(Gdx.graphics.getDeltaTime());
-		batch.end();
+        camera.position.y = Gdx.input.getY();
+	
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        camera.zoom *= 1.001;
+        camera.update();
+
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        mapper.updateAndRender(Gdx.graphics.getDeltaTime());
+        batch.end();
 	}
 
 	// ===========================================================
@@ -92,8 +102,8 @@ public class ParallaxGdxTest extends Game {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Parallax - LibGDX Test";
 		cfg.useGL20 = true;
-		cfg.width = 800;
-		cfg.height = 600;
+		cfg.width = WIDTH;
+		cfg.height = HEIGHT;
 
 		new LwjglApplication(new ParallaxGdxTest(), cfg);
 	}
@@ -106,13 +116,28 @@ public class ParallaxGdxTest extends Game {
 
 		@Override
 		public void process(Pixmap map) {
-			map.setColor(1f, 0, 0, 1f);
-			map.drawLine(0, 0, 20, 20);
+			
+			map.setColor(1f, 1f, 1f, 0.5f);
+			
+			int starCount = 20;
+			
+			for (int i = 0; i < starCount; ++i) {
+				int x = (int) (Math.random() * 128);
+				int y = (int) (Math.random() * 128);
+				
+				map.drawCircle(x, y, 1);
+			}
 		}
 
 	}
 
 	class ParallaxCamera extends OrthographicCamera implements Viewport {
+
+		
+		
+		public ParallaxCamera(float viewportWidth, float viewportHeight) {
+			super(viewportWidth, viewportHeight);
+		}
 
 		@Override
 		public float getLeft() {
@@ -121,7 +146,7 @@ public class ParallaxGdxTest extends Game {
 
 		@Override
 		public float getRight() {
-			return getLeft() + this.viewportWidth;
+			return getLeft() + this.viewportWidth * zoom;
 		}
 
 		@Override
@@ -131,7 +156,7 @@ public class ParallaxGdxTest extends Game {
 
 		@Override
 		public float getBottom() {
-			return getTop() + this.viewportHeight;
+			return getTop() + this.viewportHeight * zoom;
 		}
 
 	}
