@@ -43,38 +43,49 @@ public class ParallaxSlickTest extends BasicGame {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
+	public void render(GameContainer arg0, Graphics g) throws SlickException {
+		g.pushTransform();
+		g.translate(-target.getLeft(), -target.getTop());
 		mapper.updateAndRender(1f);
+		g.popTransform();
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		
 		Image fog = new Image("res/fog.png");
+		Image space = new Image("res/space-far.png");
+		Image gradient = new Image("res/black-gradient.png");
 		target = new ViewportImpl(gc.getWidth(), gc.getHeight());
-		LayerTexture texture = new SlickTexture(fog);
-		LayerConfig config = new LayerConfig(texture);
-		
+		LayerTexture texSpace = new SlickTexture(space);
+		LayerTexture fogTexture = new SlickTexture(fog);
+		LayerConfig config = new LayerConfig(texSpace);
+	
 		mapper = new ParallaxMapper(target);
-		
-		mapper.add(config);
-		config.setZIndex(2f);
-		mapper.add(config);
-		config.setZIndex(5f);
+		config.setFilter(0.5f, 0.1f, 0.6f, 0.1f);
+		config.setTexture(texSpace);
+		config.setZIndex(15f);
 		mapper.add(config);
 		
-		LayerTexture preprocessed = new PreprocessedTexture(100, 100, new SlickTextureProcessor() {
-
-			@Override
-			public void process(Graphics g) {
-				g.setColor(Color.red);
-				g.fillRect(0, 0, 20, 20);
-			}
-			
-		});
+		int starLayers = 8;
 		
-		LayerConfig config2 = new LayerConfig(10f, preprocessed);
-		config2.setVelocity(1f, 2f);
-		mapper.add(config2);
+		for (int i = 0; i < starLayers; ++i) {
+			LayerTexture texture = new PreprocessedTexture(400, 400, new StarGenerator(gradient));
+			config = new LayerConfig(texture);
+			config.setZIndex((float) (Math.pow(i, 1.2) + 5f));
+			mapper.add(config);
+		}
+		
+		int fogLayers = 2;
+		float veloX = 1f;
+		float veloY = 2f;
+		
+		for (int i = 0; i < fogLayers; ++i) {
+			config = new LayerConfig(fogTexture);
+			config.setZIndex((float) (Math.pow(i, 2) + 3f));
+			config.setVelocity(veloX, veloY);
+			mapper.add(config);
+		}
 	}
 
 	@Override
@@ -136,6 +147,50 @@ public class ParallaxSlickTest extends BasicGame {
 			this.y = y;
 		}
 		
+	}
+	
+	class StarGenerator implements SlickTextureProcessor {
+		
+		private Image gradient;
+		
+		public StarGenerator(Image gradient) {
+			this.gradient = gradient;
+		}
+
+		@Override
+		public void process(Graphics g) {
+			int starAmount = (int) (3 * 100);
+
+			for (int i = 0; i < starAmount; ++i) {
+				drawStar((float) (400 * Math.random()),
+						(float) (400 * Math.random()), g);
+			}
+		}
+		
+		
+		private void drawStar(float x, float y, Graphics g) {
+			Color color = new Color(255, 255, 255, 255);
+			float size = 1f;
+			if (Math.random() < 0.03f) {
+				size += 1.3f;
+			} else if (Math.random() < 0.05f) {
+				size += 1.4f;
+			} else if (Math.random() < 0.08f) {
+				size += 1.1f;
+			}
+			color.r = (float) (Math.random() * 0.5f + 0.6f);
+			color.g = (float) (Math.random() * 0.5f + 0.6f);
+			color.b = (float) (Math.random() * 0.5f + 0.6f);
+			g.setDrawMode(Graphics.MODE_ALPHA_MAP);
+			Image blendImage = gradient;
+			blendImage.draw(x - size / 2f, y - size / 2f, size * 2f, size * 2f);
+			g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+			g.setColor(color);
+			g.fillRect(x - size / 2f, y - size / 2f, size * 2f, size * 2f);
+
+			color.a = 1.0f;
+		}
+
 	}
 
 }

@@ -72,6 +72,7 @@ public class LayerConfig extends SimpleFilterable implements Filterable {
 		this.tileWidth = config.tileWidth;
 		this.tileHeight = config.tileHeight;
 		this.texture = config.texture;
+		setFilter(config.getFilter());
 	}
 
 	// ===========================================================

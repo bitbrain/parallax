@@ -56,7 +56,7 @@ class SimpleLayerFactory implements LayerFactory {
 	 */
 	@Override
 	public Layer create(LayerConfig config, Buffer buffer) {
-		return new SimpleLayer(new LayerConfig(config), buffer);
+		return new SimpleLayer(config, buffer);
 	}
 
 	// ===========================================================

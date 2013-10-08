@@ -64,6 +64,6 @@ interface Renderer extends Clearable {
 	 * 
 	 * @param drawable
 	 */
-	void add(Drawable drawable);
+	void add(float priority, Drawable drawable);
 
 }

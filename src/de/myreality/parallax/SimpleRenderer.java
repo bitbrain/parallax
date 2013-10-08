@@ -19,6 +19,7 @@
 package de.myreality.parallax;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.myreality.parallax.util.Drawable;
@@ -44,7 +45,7 @@ public class SimpleRenderer implements Renderer {
 
 	private Viewport viewport;
 
-	private List<Drawable> drawables;
+	private List<PriorityLink> drawables;
 
 	private Filterable filterable;
 
@@ -53,7 +54,7 @@ public class SimpleRenderer implements Renderer {
 	// ===========================================================
 
 	public SimpleRenderer(Viewport viewport, Filterable parent) {
-		drawables = new ArrayList<Drawable>();
+		drawables = new ArrayList<PriorityLink>();
 		this.filterable = parent;
 		setViewport(viewport);
 	}
@@ -71,9 +72,13 @@ public class SimpleRenderer implements Renderer {
 	// ===========================================================
 	
 	@Override
-	public void add(Drawable drawable) {
-		if (!drawables.contains(drawable)) {
-			drawables.add(drawable);
+	public void add(float priority, Drawable drawable) {
+		
+		PriorityLink link = new PriorityLink(priority, drawable);
+		
+		if (!drawables.contains(link)) {
+			drawables.add(link);
+			Collections.sort(drawables);
 		}
 	}
 
@@ -85,8 +90,8 @@ public class SimpleRenderer implements Renderer {
 	@Override
 	public void updateAndRender(float delta) {
 		if (viewport != null) {
-			for (Drawable drawable : drawables) {
-				draw(drawable);
+			for (PriorityLink link : drawables) {
+				draw(link.drawable);
 			}
 		}
 	}
@@ -115,5 +120,29 @@ public class SimpleRenderer implements Renderer {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	class PriorityLink implements Comparable<PriorityLink> {
+		
+		public Drawable drawable;
+		
+		private float priority;
+		
+		public PriorityLink(float priority, Drawable drawable) {
+			this.priority = priority;
+			this.drawable = drawable;
+		}
+
+		@Override
+		public int compareTo(PriorityLink o) {
+			if (priority < o.priority) {
+				return 1;
+			} else if (priority > o.priority) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+		
+	}
 
 }

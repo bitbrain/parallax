@@ -71,10 +71,15 @@ public class ParallaxMapper extends SimpleFilterable {
 	// Methods
 	// ===========================================================
 
-	public void add(LayerConfig config) {
-		Layer layer = factory.create(config, buffer);
+	public void add(float zIndex, LayerConfig config) {
+		LayerConfig copy = new LayerConfig(config);
+		Layer layer = factory.create(copy, buffer);
 		layers.add(layer);
-		renderer.add(layer);
+		renderer.add(zIndex, layer);
+	}
+	
+	public void add(LayerConfig config) {
+		add(config.getZIndex(), config);
 	}
 	
 	public void clear() {

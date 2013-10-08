@@ -63,9 +63,9 @@ public class SimpleRendererTest {
 
 	@Test
 	public void testUpdateAndRender() {
-		renderer.add(new DrawableMock());
-		renderer.add(new DrawableMock());
-		renderer.add(new DrawableMock());
+		renderer.add(10, new DrawableMock());
+		renderer.add(20, new DrawableMock());
+		renderer.add(30, new DrawableMock());
 		
 		renderer.updateAndRender(0f);
 	}	

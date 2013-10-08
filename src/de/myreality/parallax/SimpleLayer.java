@@ -77,8 +77,8 @@ class SimpleLayer implements Layer {
 	@Override
 	public void draw(float x, float y, float width, float height, Color filter) {
 
-		int boundableX = (int) Math.ceil(-x);
-		int boundableY = (int) Math.ceil(-y);
+		int boundableX = (int) Math.ceil(x);
+		int boundableY = (int) Math.ceil(y);
 
 		LayerTexture texture = config.getTexture();
 		
@@ -92,7 +92,7 @@ class SimpleLayer implements Layer {
 						.getTileHeight()) {
 					texture.draw(tmpX + getXClip(x), tmpY + getYClip(y),
 							config.getTileWidth(), config.getTileHeight(),
-							config.getFilter());
+							blend(filter, config.getFilter(), 0.0f));
 				}
 			}
 
@@ -143,6 +143,19 @@ class SimpleLayer implements Layer {
 
 	private int getYClip(float focusY) {
 		return (int) (getTargetY(focusY) % config.getTileHeight());
+	}
+	
+	private Color blend(Color source, Color target, float ratio) {
+
+		Color color = new Color(Color.white);
+		
+		float ir = (float) 1.0 - ratio;
+
+		color.r = source.r * ratio + target.r * ir;
+		color.g = source.g * ratio + target.g * ir;
+		color.b = source.b * ratio + target.b * ir;
+		
+		return color;
 	}
 
 	// ===========================================================
