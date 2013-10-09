@@ -47,6 +47,28 @@ MyCamera camera = new MyCamera();
 ParallaxMapper mapper = new ParallaxMapper(camera);
 ```
 
+### Slick2D remarks
+
+The parallax system works only with matrix translation. Therefore you need to translate the matrix by the current camera position:
+
+```java
+// Code in the render method
+g.pushMatrix();
+g.translate(camera.getX(), camera.getY();
+mapper.render();
+g.popMatrix();
+```
+
+### LibGDX remarks
+
+In order to use the parallax effect properly, you have to define a ```SpriteBatch``` instance. You need to wrap *begin* and *end* around the render method:
+
+```java
+batch.begin();
+mapper.render();
+batch.end();
+```
+
 ## Adding layers
 
 To add a layer, you need a layer configuration. This configuration requires a ```LayerTexture``` in order to draw the parallax effect properly. For [LibGDX](http://libgdx.badlogicgames.com/) and [Slick2D](http://slick.ninjacave.com/) exist already implementation of those textures.
