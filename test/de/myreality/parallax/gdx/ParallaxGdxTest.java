@@ -4,15 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.myreality.parallax.LayerConfig;
 import de.myreality.parallax.LayerTexture;
 import de.myreality.parallax.ParallaxMapper;
 import de.myreality.parallax.Viewport;
+import de.myreality.parallax.libgdx.GdxTexture;
 import de.myreality.parallax.libgdx.GdxTextureProcessor;
 import de.myreality.parallax.libgdx.PreprocessedTexture;
 
@@ -34,6 +36,7 @@ public class ParallaxGdxTest extends Game {
 	private ParallaxCamera camera;
 	
 	private SpriteBatch batch;
+	private Texture gradient;
 
 	// ===========================================================
 	// Constructors
@@ -50,19 +53,44 @@ public class ParallaxGdxTest extends Game {
 	@Override
 	public void create() {
 		
-		batch = new SpriteBatch();		
-		
-		camera = new ParallaxCamera(WIDTH, HEIGHT);   
-        
+		batch = new SpriteBatch();				
+		camera = new ParallaxCamera(WIDTH, HEIGHT);           
         mapper = new ParallaxMapper(camera);
-		LayerTexture texture = new PreprocessedTexture(128, 128, batch, new BlockCreator());
-		LayerConfig config = new LayerConfig(texture);
-		config.setZIndex(1f);
+        
+        Texture space = new Texture("res/space-far.png");
+        gradient = new Texture("res/black-gradient.png");
+        Texture fog = new Texture("res/fog.png");
+        
+        final int starLayers = 8;
+		
+		for (int i = 0; i < starLayers; ++i) {
+			LayerTexture texture = new PreprocessedTexture(128, 128, batch, new BlockCreator());
+			LayerConfig config = new LayerConfig(texture);
+			config.setZIndex((float) (Math.pow(i, 1.2) + 5f));
+			mapper.add(config);
+		}
+		
+
+		int fogLayers = 5;
+		float veloX = 1f;
+		float veloY = 2f;
+		
+		LayerTexture fogTexture = new GdxTexture(fog, batch);
+		
+		for (int i = 0; i < fogLayers; ++i) {
+			LayerConfig config = new LayerConfig(fogTexture);
+			config.setZIndex((float) (Math.sin(i) + 5));
+			config.setVelocity(veloX, veloY);
+			mapper.add(config);
+		}
+		
+		// Add the background
+		LayerTexture backgroundTexture = new GdxTexture(space, batch);
+		LayerConfig config = new LayerConfig(backgroundTexture);
+		config.setZIndex(20f);
+		config.setFilter(0.5f, 0.1f, 0.6f, 0.1f);
 		mapper.add(config);
-		config.setZIndex(3f);
-		mapper.add(config);
-		config.setZIndex(10f);
-		mapper.add(config);
+		
 	}
 
 	@Override
@@ -75,23 +103,25 @@ public class ParallaxGdxTest extends Game {
 
 	@Override
 	public void render() {
-		super.render();		
-		
-		int deltaX = (int)(Gdx.graphics.getWidth() / 2f);
-		int deltaY = (int)(Gdx.graphics.getHeight() / 2f);
+		super.render();	
 		
 		camera.position.x = Gdx.input.getX();
         camera.position.y = Gdx.input.getY();
 	
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        camera.zoom *= 1.001;
-        camera.update();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
-		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.update();
+        
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        mapper.updateAndRender(Gdx.graphics.getDeltaTime());
+        mapper.updateAndRender(Gdx.graphics.getDeltaTime() + 1f);
         batch.end();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		mapper.clear();
 	}
 
 	// ===========================================================
@@ -104,7 +134,9 @@ public class ParallaxGdxTest extends Game {
 		cfg.useGL20 = true;
 		cfg.width = WIDTH;
 		cfg.height = HEIGHT;
-
+		cfg.vSyncEnabled = true;
+		cfg.samples = 8;
+		
 		new LwjglApplication(new ParallaxGdxTest(), cfg);
 	}
 
@@ -125,7 +157,7 @@ public class ParallaxGdxTest extends Game {
 				int x = (int) (Math.random() * 128);
 				int y = (int) (Math.random() * 128);
 				
-				map.drawCircle(x, y, 1);
+				map.fillRectangle(x, y, 2, 2);
 			}
 		}
 

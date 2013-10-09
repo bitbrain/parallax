@@ -101,7 +101,6 @@ public class PreprocessedTexture implements LayerTexture {
 	@Override
 	public void dispose() {
 		this.texture = null;
-		
 		if (buffer != null) {
 			try {
 				buffer.destroy();
