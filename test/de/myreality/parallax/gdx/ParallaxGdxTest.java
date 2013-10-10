@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -36,7 +37,6 @@ public class ParallaxGdxTest extends Game {
 	private ParallaxCamera camera;
 	
 	private SpriteBatch batch;
-	private Texture gradient;
 
 	// ===========================================================
 	// Constructors
@@ -58,13 +58,12 @@ public class ParallaxGdxTest extends Game {
         mapper = new ParallaxMapper(camera);
         
         Texture space = new Texture("res/space-far.png");
-        gradient = new Texture("res/black-gradient.png");
         Texture fog = new Texture("res/fog.png");
         
         final int starLayers = 8;
 		
 		for (int i = 0; i < starLayers; ++i) {
-			LayerTexture texture = new PreprocessedTexture(128, 128, batch, new BlockCreator());
+			LayerTexture texture = new PreprocessedTexture(256, 256, batch, new BlockCreator());
 			LayerConfig config = new LayerConfig(texture);
 			config.setZIndex((float) (Math.pow(i, 1.2) + 5f));
 			mapper.add(config);
@@ -88,7 +87,7 @@ public class ParallaxGdxTest extends Game {
 		LayerTexture backgroundTexture = new GdxTexture(space, batch);
 		LayerConfig config = new LayerConfig(backgroundTexture);
 		config.setZIndex(20f);
-		config.setFilter(0.5f, 0.1f, 0.6f, 0.1f);
+		config.setFilter(0.3f, 0.1f, 0.4f, 0.01f);
 		mapper.add(config);
 		
 	}
@@ -105,13 +104,18 @@ public class ParallaxGdxTest extends Game {
 	public void render() {
 		super.render();	
 		
+		float width = Gdx.graphics.getWidth();
+		float height = Gdx.graphics.getHeight();
+		
 		camera.position.x = Gdx.input.getX();
         camera.position.y = Gdx.input.getY();
 	
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 
+        width *= 2;
+        Gdx.gl.glViewport((int)(-width/2), 0, (int)width, (int)height * 2);
+	   
         camera.update();
-        
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         mapper.updateAndRender(Gdx.graphics.getDeltaTime() + 1f);
@@ -131,7 +135,7 @@ public class ParallaxGdxTest extends Game {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Parallax - LibGDX Test";
-		cfg.useGL20 = true;
+		cfg.useGL20 = false;
 		cfg.width = WIDTH;
 		cfg.height = HEIGHT;
 		cfg.vSyncEnabled = true;
@@ -149,16 +153,33 @@ public class ParallaxGdxTest extends Game {
 		@Override
 		public void process(Pixmap map) {
 			
-			map.setColor(1f, 1f, 1f, 0.5f);
-			
-			int starCount = 20;
-			
-			for (int i = 0; i < starCount; ++i) {
-				int x = (int) (Math.random() * 128);
-				int y = (int) (Math.random() * 128);
-				
-				map.fillRectangle(x, y, 2, 2);
+			int starAmount = (int) (3 * 40);
+
+			for (int i = 0; i < starAmount; ++i) {
+				drawStar((float) (400 * Math.random()),
+						(float) (400 * Math.random()), map);
 			}
+		}
+		
+		private void drawStar(float x, float y, Pixmap map) {
+			Color color = new Color(255, 255, 255, 255);
+			float size = 0.5f;
+			if (Math.random() < 0.03f) {
+				size += 0.5f;
+			} else if (Math.random() < 0.05f) {
+				size += 0.6f;
+			} else if (Math.random() < 0.08f) {
+				size += 0.2f;
+			}
+			color.r = (float) (Math.random() * 0.4f + 0.6f);
+			color.g = (float) (Math.random() * 0.4f + 0.6f);
+			color.b = (float) (Math.random() * 0.4f + 0.6f);
+			
+			map.setColor(color);
+			map.fillRectangle((int)(x - size / 2f), (int)(y - size / 2f), (int)(size * 2f), (int)(size * 2f));
+
+
+			color.a = 1.0f;
 		}
 
 	}
