@@ -92,7 +92,7 @@ class SimpleLayer implements Layer {
 						.getTileHeight()) {
 					texture.draw(tmpX + getXClip(x), tmpY + getYClip(y),
 							config.getTileWidth(), config.getTileHeight(),
-							blend(filter, config.getFilter(), 0.0f));
+							getFilter(filter));
 				}
 			}
 
@@ -145,19 +145,13 @@ class SimpleLayer implements Layer {
 		return (int) (getTargetY(focusY) % config.getTileHeight());
 	}
 	
-	private Color blend(Color source, Color target, float ratio) {
-
-		Color color = new Color(Color.white);
-		
-		float ir = (float) 1.0 - ratio;
-
-		color.r = source.r * ratio + target.r * ir;
-		color.g = source.g * ratio + target.g * ir;
-		color.b = source.b * ratio + target.b * ir;
-		
-		return color;
+	private Color getFilter(Color parentFilter) {
+		if (config.getFilter().equals(Color.none)) {
+			return parentFilter;
+		} else {
+			return config.getFilter();
+		}
 	}
-
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

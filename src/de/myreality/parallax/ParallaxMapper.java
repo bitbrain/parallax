@@ -21,6 +21,7 @@ package de.myreality.parallax;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.myreality.parallax.util.Color;
 import de.myreality.parallax.util.SimpleFilterable;
 
 /**
@@ -57,6 +58,7 @@ public class ParallaxMapper extends SimpleFilterable {
 		this.buffer = SharedBuffer.getInstance();
 		this.factory = new SimpleLayerFactory();
 		this.renderer = new SimpleRenderer(viewport, this);
+		setFilter(new Color(1f, 1f, 1f, 1f));
 	}
 
 	// ===========================================================
@@ -73,6 +75,7 @@ public class ParallaxMapper extends SimpleFilterable {
 
 	public void add(float zIndex, LayerConfig config) {
 		LayerConfig copy = new LayerConfig(config);
+		copy.setZIndex(zIndex);
 		Layer layer = factory.create(copy, buffer);
 		layers.add(layer);
 		renderer.add(zIndex, layer);

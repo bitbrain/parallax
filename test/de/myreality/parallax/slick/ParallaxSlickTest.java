@@ -62,7 +62,7 @@ public class ParallaxSlickTest extends BasicGame {
 		LayerConfig config = new LayerConfig(texSpace);
 	
 		mapper = new ParallaxMapper(target);
-		config.setFilter(0.5f, 0.1f, 0.6f, 0.1f);
+		config.setFilter(0.5f, 0.1f, 0.6f, 1.0f);
 		config.setTexture(texSpace);
 		config.setZIndex(15f);
 		mapper.add(config);

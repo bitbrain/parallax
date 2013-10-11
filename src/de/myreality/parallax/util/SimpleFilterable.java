@@ -42,7 +42,7 @@ public class SimpleFilterable implements Filterable {
 	// ===========================================================
 	
 	public SimpleFilterable() {
-		filter = new Color(1f, 1f, 1f, 1f);
+		filter = new Color(0f, 0f, 0f, 0f);
 	}
 
 	// ===========================================================

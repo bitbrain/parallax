@@ -67,6 +67,8 @@ public class Color implements Serializable {
 	public final static Color orange = new Color(255, 200, 0, 255);
 	/** The fixed colour dark magenta */
 	public final static Color magenta = new Color(255, 0, 255, 255);
+	/** the fixed colour of none */
+	public final static Color none = transparent;
 
 	// ===========================================================
 	// Fields
