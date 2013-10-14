@@ -45,7 +45,7 @@ public class SharedBuffererTest {
 	@Before
 	public void beforeTest() {
 		bufferer = SharedBuffer.getInstance();
-		bufferer.setBuffer(0);
+		bufferer.setBufferSize(0);
 		bufferer.clear();
 		mock1 = new BufferableMock();
 		mock2 = new BufferableMock();
@@ -67,7 +67,7 @@ public class SharedBuffererTest {
 				bufferer.isLoaded(mock2));
 		bufferer.clear();
 
-		bufferer.setBuffer(1);
+		bufferer.setBufferSize(1);
 
 		bufferer.add(mock1);
 		bufferer.add(mock2);

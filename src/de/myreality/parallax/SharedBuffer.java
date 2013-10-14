@@ -92,7 +92,7 @@ class SharedBuffer implements Buffer {
 	 * @see de.myreality.parallax.TextureBufferer#setBuffer(int)
 	 */
 	@Override
-	public void setBuffer(int buffer) {
+	public void setBufferSize(int buffer) {
 		if (buffer >= 0) {
 			this.buffer = buffer;
 		} else {
@@ -106,7 +106,7 @@ class SharedBuffer implements Buffer {
 	 * @see de.myreality.parallax.TextureBufferer#getBuffer()
 	 */
 	@Override
-	public int getBuffer() {
+	public int getBufferSize() {
 		return buffer;
 	}
 
@@ -136,7 +136,7 @@ class SharedBuffer implements Buffer {
 	@Override
 	public void add(Bufferable bufferable) {
 		
-		if (getBuffer() > 0) {
+		if (getBufferSize() > 0) {
 			targets.add(bufferable);		
 		} else {
 			load(bufferable);

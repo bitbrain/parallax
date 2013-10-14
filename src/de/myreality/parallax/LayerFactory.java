@@ -37,7 +37,7 @@ interface LayerFactory {
 	// ===========================================================
 	
 	/**
-	 * Creates a new layer for mapper
+	 * Creates a new layer for {@see ParallaxMapper}
 	 * 
 	 * @param config
 	 * @param mapper

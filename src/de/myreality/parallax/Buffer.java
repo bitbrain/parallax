@@ -22,7 +22,11 @@ import de.myreality.parallax.util.Bufferable;
 import de.myreality.parallax.util.Clearable;
 
 /**
- * Provides buffering functionality
+ * Provides buffering functionality. A buffer can handle objects
+ * of type {@see Bufferable} and process them via update method.
+ * 
+ * You can determine how many targets should get processed during
+ * one method call by setting a new 
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -39,41 +43,44 @@ interface Buffer extends Clearable {
 	// ===========================================================
 	
 	/**
-	 * Sets a new buffer index
+	 * Sets a new buffer size. If the index is < 0, then it will be
+	 * automatically set to 0. If the index equals 0, buffering will
+	 * be disabled automatically.
 	 * 
-	 * @param buffer
+	 * @param buffer value to determine the number of calculations per update
 	 */
-	void setBuffer(int buffer);
+	void setBufferSize(int buffer);
 	
 	/**
-	 * Returns the current buffer
+	 * Returns the current buffer size
 	 * 
 	 * @return
 	 */
-	int getBuffer();
+	int getBufferSize();
 	
 	/**
-	 * Update this bufferer
+	 * Update this buffer
 	 * 
 	 */
 	void update();
 	
 	/**
-	 * 
+	 * Adds a new {@see Bufferable} to this buffer
 	 * 
 	 * @param bufferable
 	 */
 	void add(Bufferable bufferable);
 	
 	/**
+	 * Checks if the target object has been already cached 
 	 * 
 	 * @param bufferable
-	 * @return
+	 * @return true when cached
 	 */
 	boolean isLoaded(Bufferable bufferable);
 	
 	/**
-	 * 
+	 * Unload an already buffered object
 	 * 
 	 * @param bufferable
 	 */

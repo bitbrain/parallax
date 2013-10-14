@@ -52,13 +52,15 @@ interface Layer extends Drawable {
 	LayerConfig getConfig();
 	
 	/**
-	 * 
+	 * Updates the current layer
 	 * 
 	 * @param delta
 	 */
 	void update(float delta);
 	
-	
+	/**
+	 * Unloads this layer and all underlying resources (textures) 
+	 */
 	void unload();
 
 }
