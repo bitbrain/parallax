@@ -39,14 +39,16 @@ public interface LayerTexture extends Drawable, Bufferable {
 	// ===========================================================
 	
 	/**
+	 * Returns the width of this texture
 	 * 
-	 * @return
+	 * @return current width
 	 */
 	int getWidth();
 	
 	/**
+	 * Returns the height of this texture
 	 * 
-	 * @return
+	 * @return current height
 	 */
 	int getHeight();
 

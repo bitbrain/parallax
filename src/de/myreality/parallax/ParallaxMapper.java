@@ -53,6 +53,12 @@ public class ParallaxMapper extends SimpleFilterable {
 	// Constructors
 	// ===========================================================
 	
+	/**
+	 * Creates a new parallax mapper by aligning the parallax
+	 * effect on the target {@see Viewport}.
+	 * 
+	 * @param viewport target viewport
+	 */
 	public ParallaxMapper(Viewport viewport) {
 		layers = new ArrayList<Layer>();
 		this.buffer = SharedBuffer.getInstance();
@@ -73,6 +79,12 @@ public class ParallaxMapper extends SimpleFilterable {
 	// Methods
 	// ===========================================================
 
+	/**
+	 * Adds a new layer to the system
+	 * 
+	 * @param zIndex z index
+	 * @param config configuration
+	 */
 	public void add(float zIndex, LayerConfig config) {
 		LayerConfig copy = new LayerConfig(config);
 		copy.setZIndex(zIndex);
@@ -81,10 +93,18 @@ public class ParallaxMapper extends SimpleFilterable {
 		renderer.add(zIndex, layer);
 	}
 	
+	/**
+	 * Adds a new layer to the system
+	 * 
+	 * @param config configuration
+	 */
 	public void add(LayerConfig config) {
 		add(config.getZIndex(), config);
 	}
 	
+	/**
+	 * Clears this mapper
+	 */
 	public void clear() {
 		
 		for (Layer layer : layers) {
@@ -96,6 +116,11 @@ public class ParallaxMapper extends SimpleFilterable {
 		
 	}
 	
+	/**
+	 * Updates and renders this mapper
+	 * 
+	 * @param delta
+	 */
 	public void updateAndRender(float delta) {
 		
 		for (Layer layer : layers) {
@@ -106,16 +131,31 @@ public class ParallaxMapper extends SimpleFilterable {
 		renderer.updateAndRender(delta);
 	}
 	
+	/**
+	 * Returns the underlying viewport
+	 * 
+	 * @return
+	 */
 	public Viewport getViewport() {
 		return renderer.getViewport();
 	}
 	
+	/**
+	 * Sets a new viewport
+	 * 
+	 * @param viewport
+	 */
 	public void setViewport(Viewport viewport) {
 		renderer.setViewport(viewport);
 	}
 	
+	/**
+	 * Enables/Disables buffering by setting it
+	 * 
+	 * @param buffering
+	 */
 	public static void setBuffering(int buffering) {
-		SharedBuffer.getInstance().setBuffer(buffering);
+		SharedBuffer.getInstance().setBufferSize(buffering);
 	}
 	
 	// ===========================================================
