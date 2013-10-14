@@ -39,7 +39,7 @@ public interface GdxTextureProcessor {
 	// ===========================================================
 	
 	/**
-	 * 
+	 * Processes a texture by considering a pixmap
 	 * 
 	 * @param g
 	 */

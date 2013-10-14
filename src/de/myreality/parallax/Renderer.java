@@ -22,7 +22,8 @@ import de.myreality.parallax.util.Clearable;
 import de.myreality.parallax.util.Drawable;
 
 /**
- * Renderer which provides rendering functionality
+ * Renderer which provides rendering functionality in order to
+ * draw objects of type {@see Drawable}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -39,28 +40,29 @@ interface Renderer extends Clearable {
 	// ===========================================================
 	
 	/**
-	 * 
+	 * Updates and renders all containing objects of type {@see Drawable}
 	 * 
 	 * @param delta
 	 */
 	void updateAndRender(float delta);
 	
 	/**
-	 * 
-	 * 
-	 * @return
+	 * Returns the current {@see Viewport} of this renderer
+	 *
+	 * @return current {@see Viewport}
 	 */
 	Viewport getViewport();
 	
 	/**
+	 * Sets a new viewport to this renderer
 	 * 
-	 * 
-	 * @param viewport
+	 * @param viewport new viewport to set
 	 */
 	void setViewport(Viewport viewport);
 	
 	/**
-	 * 
+	 * Adds a new drawable to this renderer instance. As higher the value
+	 * as earlier will the object be processed by this renderer.
 	 * 
 	 * @param drawable
 	 */
