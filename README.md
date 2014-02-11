@@ -10,6 +10,9 @@ This library is able to..
 * display parallax effects
 * customize your backgrounds with parallax patterns
 
+#Download
+
+You can download the library [here](https://www.dropbox.com/s/wt8m9w53obixzbc/parallax.jar).
 
 ## Getting started
 
